@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">VotoDroid</string>
+    <string name="ta_question">Ta question</string>
+    <string name="pose_la_question">Pose la question</string>
+    <string name="ajouter">Ajouter</string>
 </resources>
