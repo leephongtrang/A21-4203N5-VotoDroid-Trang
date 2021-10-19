@@ -2,6 +2,7 @@ package com.example.votodroid;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +11,9 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.example.votodroid.databinding.ActivityMainBinding;
+import com.google.android.material.datepicker.MaterialDatePicker;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -41,5 +45,5 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
+    CustomAdapter adapter;
 }

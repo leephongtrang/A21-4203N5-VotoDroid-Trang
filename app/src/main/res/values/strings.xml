@@ -3,4 +3,6 @@
     <string name="ta_question">Ta question</string>
     <string name="pose_la_question">Pose la question</string>
     <string name="ajouter">Ajouter</string>
+    <string name="vote">Vote</string>
+    <string name="nom_du_votant">Nom du votant</string>
 </resources>
