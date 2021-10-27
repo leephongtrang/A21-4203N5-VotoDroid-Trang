@@ -20,11 +20,10 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list_question"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.239"
-        tools:layout_editor_absoluteX="-16dp" />
+        android:layout_height="500dp"
+        android:layout_margin="10dp"
+
+        app:layout_constraintTop_toBottomOf="@+id/action_add" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
