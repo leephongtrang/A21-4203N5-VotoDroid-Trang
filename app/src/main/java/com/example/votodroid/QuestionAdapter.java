@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -25,11 +26,13 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.MyView
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
         public TextView tvQuestion;
+        public ImageButton btnResult;
         public LinearLayout ll;
         public MyViewHolder(LinearLayout v) {
             super(v);
             this.ll = v;
             tvQuestion = v.findViewById(R.id.tvQuestion);
+            btnResult = v.findViewById(R.id.btn_result);
         }
     }
 
@@ -64,6 +67,14 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.MyView
                 intent.putExtra("questionPose", questionCourante.question);
                 v.getContext().startActivity(intent);
 
+            }
+        });
+
+        holder.btnResult.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), VoteResultat.class);
+                v.getContext().startActivity(intent);
             }
         });
     }

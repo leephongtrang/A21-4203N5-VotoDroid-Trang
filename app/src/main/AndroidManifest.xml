@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.VotoDroid">
-        <activity android:name=".VoteActivity"></activity>
+        <activity android:name=".VoteResultat"></activity>
+        <activity android:name=".VoteActivity" />
         <activity android:name=".CreateQuestionActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
