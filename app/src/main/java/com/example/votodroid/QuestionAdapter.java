@@ -1,5 +1,7 @@
 package com.example.votodroid;
 
+import android.content.Intent;
+import android.renderscript.ScriptGroup;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static androidx.core.content.ContextCompat.startActivity;
 
 public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.MyViewHolder> {
     public List<Question> list;
@@ -56,9 +60,15 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.MyView
             @Override
             public void onClick(View v) {
                 Log.i("GNA", "clic sur " + questionCourante.question);
+                Intent intent = new Intent (v.getContext(), VoteActivity.class);
+                intent.putExtra("questionPose", questionCourante.question);
+                v.getContext().startActivity(intent);
+
             }
         });
     }
+
+
 
     // renvoie la taille de la liste
     @Override
