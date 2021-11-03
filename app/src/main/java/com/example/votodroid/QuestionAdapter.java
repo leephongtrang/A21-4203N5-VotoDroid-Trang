@@ -74,6 +74,7 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.MyView
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), VoteResultat.class);
+                intent.putExtra("questionPose", questionCourante.question);
                 v.getContext().startActivity(intent);
             }
         });

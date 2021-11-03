@@ -4,12 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".VoteResultat">
+    tools:context=".VoteResultat"
+    android:layout_margin="5dp">
+
+    <TextView
+        android:id="@+id/text_questionResultat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="30sp"/>
+
 
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/text_questionResultat">
 
         <TextView
             android:layout_width="wrap_content"
@@ -38,7 +47,7 @@
             android:text="Écart type :" />
 
         <TextView
-            android:id="@+id/ecratType"
+            android:id="@+id/ecartType"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1" />
@@ -53,7 +62,7 @@
         <com.github.mikephil.charting.charts.BarChart
             android:id="@+id/chart"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_height="500dp"
             android:background="@android:color/white" />
 
     </LinearLayout>
