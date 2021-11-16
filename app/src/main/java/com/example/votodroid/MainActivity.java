@@ -2,6 +2,7 @@ package com.example.votodroid;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -9,12 +10,19 @@ import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
 
+import com.example.votodroid.bd.BD;
 import com.example.votodroid.databinding.ActivityMainBinding;
+import com.example.votodroid.exceptions.MauvaiseQuestion;
+import com.example.votodroid.modele.VDQuestion;
+import com.example.votodroid.service.ServiceImplementation;
 
 public class MainActivity extends AppCompatActivity {
 
     QuestionAdapter adapter;
+    private ServiceImplementation service;
+    private BD maBD;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,18 +32,23 @@ public class MainActivity extends AppCompatActivity {
         setContentView(view);
         setTitle("VoteDroid");
 
+        maBD =  Room.databaseBuilder(getApplicationContext(), BD.class, "BDQuestions")
+                .allowMainThreadQueries()
+                .fallbackToDestructiveMigration()
+                .build();
+        service = ServiceImplementation.getInstance(maBD);
+        creerQuestion();
+
         this.initRecycler();
-        this.test();
+        //this.test();
 
         binding.actionAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent cuicui = new Intent(MainActivity.this, CreateQuestionActivity.class);
-                startActivity(cuicui);
+                Intent intent = new Intent(MainActivity.this, CreateQuestionActivity.class);
+                startActivity(intent);
             }
         });
-
-        //binding.listQuestion.addOnItemTouchListener();
     }
 
     @Override
@@ -49,6 +62,17 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    private void creerQuestion (){
+        try{
+            VDQuestion maQuestion = new VDQuestion();
+            maQuestion.texteQuestion = "As-tu hâte au nouveau film The Matrix Resurrections?";
+            service.creerQuestion(maQuestion);
+        }catch (MauvaiseQuestion m){
+            Log.e("CREERQUESTION", "Impossible de créer la question : " + m.getMessage());
+        }
+    }
+
+    /*
     private void test(){
         for (int i = 0; i < 23; i++){
             adapter.list.add(new Question("testQ"+i));
@@ -56,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
 
         adapter.notifyDataSetChanged();
     }
+    */
 
     private void initRecycler(){
         RecyclerView recyclerView = findViewById(R.id.list_question);
