@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
         creerQuestion();
 
         this.initRecycler();
+        afficherQuestion();
         //this.test();
 
         binding.actionAdd.setOnClickListener(new View.OnClickListener() {
@@ -49,6 +50,21 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    private void afficherQuestion() {
+        adapter.list = maBD.monDao().lesVDQuestion();
+        adapter.notifyDataSetChanged();
+    }
+
+    private void creerQuestion (){
+        try{
+            VDQuestion maQuestion = new VDQuestion();
+            maQuestion.texteQuestion = "As-tu hâte au nouveau film The Matrix Resurrections?";
+            service.creerQuestion(maQuestion);
+        }catch (MauvaiseQuestion m){
+            Log.e("CREERQUESTION", "Impossible de créer la question : " + m.getMessage());
+        }
     }
 
     @Override
@@ -62,25 +78,16 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void creerQuestion (){
-        try{
-            VDQuestion maQuestion = new VDQuestion();
-            maQuestion.texteQuestion = "As-tu hâte au nouveau film The Matrix Resurrections?";
-            service.creerQuestion(maQuestion);
-        }catch (MauvaiseQuestion m){
-            Log.e("CREERQUESTION", "Impossible de créer la question : " + m.getMessage());
-        }
-    }
-
-    /*
-    private void test(){
+    /*private void test(){
         for (int i = 0; i < 23; i++){
-            adapter.list.add(new Question("testQ"+i));
-        }
+            VDQuestion q = new VDQuestion();
+            q.texteQuestion = "testQ" + i;
 
+            maBD.monDao().insertQuestion(q);
+            adapter.list.add(q);
+        }
         adapter.notifyDataSetChanged();
-    }
-    */
+    }*/
 
     private void initRecycler(){
         RecyclerView recyclerView = findViewById(R.id.list_question);
