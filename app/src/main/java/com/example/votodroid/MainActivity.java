@@ -37,11 +37,11 @@ public class MainActivity extends AppCompatActivity {
                 .fallbackToDestructiveMigration()
                 .build();
         service = ServiceImplementation.getInstance(maBD);
-        creerQuestion();
+        //creerQuestion();
 
         this.initRecycler();
         afficherQuestion();
-        //this.test();
+        this.test();
 
         binding.actionAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,8 +53,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void afficherQuestion() {
-        adapter.list = maBD.monDao().lesVDQuestion();
-        adapter.notifyDataSetChanged();
+        if (!service.toutesLesQuestions().isEmpty()){
+            adapter.list = service.toutesLesQuestions();
+            adapter.notifyDataSetChanged();
+        }
     }
 
     private void creerQuestion (){
@@ -67,6 +69,20 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void test(){
+        for (int i = 0; i < 23; i++){
+            VDQuestion q = new VDQuestion();
+            q.texteQuestion = "testQ" + i;
+            try {
+                service.creerQuestion(q);
+                adapter.list.add(q);
+            } catch (MauvaiseQuestion m){
+                Log.e("CREERQUESTION", "Impossible de créer la question : " + m.getMessage());
+            }
+        }
+        adapter.notifyDataSetChanged();
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.troispoints, menu);
@@ -77,17 +93,6 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         return super.onOptionsItemSelected(item);
     }
-
-    /*private void test(){
-        for (int i = 0; i < 23; i++){
-            VDQuestion q = new VDQuestion();
-            q.texteQuestion = "testQ" + i;
-
-            maBD.monDao().insertQuestion(q);
-            adapter.list.add(q);
-        }
-        adapter.notifyDataSetChanged();
-    }*/
 
     private void initRecycler(){
         RecyclerView recyclerView = findViewById(R.id.list_question);
