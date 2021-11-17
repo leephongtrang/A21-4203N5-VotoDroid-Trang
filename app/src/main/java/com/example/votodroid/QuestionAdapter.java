@@ -66,7 +66,7 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.MyView
             public void onClick(View v) {
                 Log.i("GNA", "clic sur " + questionCourante.texteQuestion);
                 Intent intent = new Intent (v.getContext(), VoteActivity.class);
-                intent.putExtra("questionPose", questionCourante.texteQuestion);
+                intent.putExtra("questionPose", questionCourante);
                 v.getContext().startActivity(intent);
 
             }

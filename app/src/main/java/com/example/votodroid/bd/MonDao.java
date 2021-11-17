@@ -5,6 +5,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 
 import com.example.votodroid.modele.VDQuestion;
+import com.example.votodroid.modele.VDVote;
 
 import java.util.List;
 
@@ -17,4 +18,8 @@ public interface MonDao {
 
     @Query("SELECT * FROM VDQuestion")
     List<VDQuestion> lesVDQuestion();
+
+    @Query("SELECT * FROM VDVote")
+    List<VDVote> lesVDVote();
+
 }

@@ -69,6 +69,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void testvote(){
+
+    }
+
     private void test(){
         for (int i = 0; i < 23; i++){
             VDQuestion q = new VDQuestion();

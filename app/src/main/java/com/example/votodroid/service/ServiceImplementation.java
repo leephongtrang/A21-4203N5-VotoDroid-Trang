@@ -6,6 +6,7 @@ import com.example.votodroid.modele.VDQuestion;
 import com.example.votodroid.modele.VDVote;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -53,7 +54,17 @@ public class ServiceImplementation{
     
     public List<VDQuestion> toutesLesQuestions() {
         //TODO Trier la liste reçue en BD par nombre de votes et la retourner
-        return maBD.monDao().lesVDQuestion();
+        List<VDQuestion> lq = maBD.monDao().lesVDQuestion();
+        List<VDVote> lv = maBD.monDao().lesVDVote();
+
+        for (VDQuestion q : lq){
+
+            for (VDVote v : lv) {
+
+            }
+        }
+
+        return lq;
     }
 
     
