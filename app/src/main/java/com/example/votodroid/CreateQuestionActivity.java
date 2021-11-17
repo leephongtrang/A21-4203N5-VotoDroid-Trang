@@ -41,12 +41,8 @@ public class CreateQuestionActivity extends AppCompatActivity {
             public void onClick(View v) {
                 creerQuestion();
                 Log.e("yup", "yup");
-
-            Intent intent = new Intent(CreateQuestionActivity.this, MainActivity.class);
-            startActivity(intent);
             }
         });
-
     }
 
     private void creerQuestion (){
@@ -55,9 +51,12 @@ public class CreateQuestionActivity extends AppCompatActivity {
             TextView textView = findViewById(R.id.text_question);
             maQuestion.texteQuestion = textView.getText().toString();
             service.creerQuestion(maQuestion);
+            Intent intent = new Intent(CreateQuestionActivity.this, MainActivity.class);
+            startActivity(intent);
         }catch (MauvaiseQuestion m){
             Log.e("CREERQUESTION", "Impossible de créer la question : " + m.getMessage());
-            TextView textView
+            TextView textView = findViewById(R.id.text_errorQuestion);
+            textView.setText(m.getMessage());
         }
     }
 }
