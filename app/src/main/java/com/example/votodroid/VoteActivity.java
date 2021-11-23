@@ -3,6 +3,7 @@ package com.example.votodroid;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
 
+import android.app.Service;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,6 +17,8 @@ import com.example.votodroid.exceptions.MauvaiseQuestion;
 import com.example.votodroid.modele.VDQuestion;
 import com.example.votodroid.modele.VDVote;
 import com.example.votodroid.service.ServiceImplementation;
+
+import java.security.Provider;
 
 public class VoteActivity extends AppCompatActivity {
 
@@ -42,6 +45,7 @@ public class VoteActivity extends AppCompatActivity {
         binding.actionVote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                creerVote();
                 Intent yo = new Intent(VoteActivity.this, MainActivity.class);
                 startActivity(yo);
 
@@ -59,9 +63,11 @@ public class VoteActivity extends AppCompatActivity {
         }catch (MauvaiseQuestion m){
             Log.e("CREERQUESTION", "Impossible de créer la question : " + m.getMessage());
         }*/
+
         VDVote vote = new VDVote();
         vote.nomVoteur = textView.getText().toString();
-        vote.vote = ratingBar.getNumStars();
-        //vote.QuestionID =
+        vote.vote = (int) (ratingBar.getRating()*2);
+        vote.QuestionID = getIntent().getLongExtra("questionID", 0);
+        service.creerVote(vote);
     }
 }

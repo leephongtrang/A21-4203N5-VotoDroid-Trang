@@ -22,4 +22,7 @@ public interface MonDao {
     @Query("SELECT * FROM VDVote")
     List<VDVote> lesVDVote();
 
+    @Insert
+    Long insertVote(VDVote v);
+
 }

@@ -8,12 +8,12 @@ import androidx.room.PrimaryKey;
 public class VDVote {
     //TODO Champs à définir
     @PrimaryKey(autoGenerate = true)
-    public long idVote;
+    public Long idVote;
 
 
     public int vote;
 
     public String nomVoteur;
 
-    public long QuestionID;
+    public Long QuestionID;
 }

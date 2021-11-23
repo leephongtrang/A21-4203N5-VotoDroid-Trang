@@ -13,6 +13,7 @@ import org.junit.runner.RunWith;
 import com.example.votodroid.bd.BD;
 import com.example.votodroid.exceptions.MauvaiseQuestion;
 import com.example.votodroid.modele.VDQuestion;
+import com.example.votodroid.modele.VDVote;
 import com.example.votodroid.service.ServiceImplementation;
 
 @RunWith(AndroidJUnit4.class)
@@ -96,6 +97,19 @@ public class TestsApplication {
         Assert.fail("Exception MauvaiseQuestion non lancée");
     }
 
+    //region testVote
+    @Test
+    public void testAjoutVoteOK() {
+        VDVote vote = new VDVote();
+        //vote.
+    }
+
+
+
+
+
+
+    //endregion
 
     /*
     @After

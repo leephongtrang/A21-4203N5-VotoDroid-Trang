@@ -49,6 +49,7 @@ public class ServiceImplementation{
     
     public void creerVote(VDVote vdVote) {
 
+        vdVote.idVote = maBD.monDao().insertVote(vdVote);
     }
 
     
