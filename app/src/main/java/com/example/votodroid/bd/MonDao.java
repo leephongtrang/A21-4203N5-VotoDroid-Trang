@@ -1,6 +1,7 @@
 package com.example.votodroid.bd;
 
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 
@@ -24,5 +25,11 @@ public interface MonDao {
 
     @Insert
     Long insertVote(VDVote v);
+
+    @Query("DELETE FROM VDQuestion")
+    public void deleteQuestion();
+
+    @Query("DELETE FROM VDVote")
+    public void deleteVote();
 
 }

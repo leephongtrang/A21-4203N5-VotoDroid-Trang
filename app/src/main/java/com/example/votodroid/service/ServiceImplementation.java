@@ -1,6 +1,7 @@
 package com.example.votodroid.service;
 
 import com.example.votodroid.bd.BD;
+import com.example.votodroid.exceptions.MauvaisVote;
 import com.example.votodroid.exceptions.MauvaiseQuestion;
 import com.example.votodroid.modele.VDQuestion;
 import com.example.votodroid.modele.VDVote;
@@ -47,7 +48,19 @@ public class ServiceImplementation{
     }
 
     
-    public void creerVote(VDVote vdVote) {
+    public void creerVote(VDVote vdVote) throws MauvaisVote {
+        if (vdVote.nomVoteur == null || vdVote.nomVoteur.trim().length() == 0) throw new MauvaisVote("Nom vide");
+        if (vdVote.nomVoteur.trim().length() < 4) throw new MauvaisVote("Nom trop court");
+        if (vdVote.nomVoteur.trim().length() > 255) throw new MauvaisVote("Nom trop long");
+        if (vdVote.idVote != null) throw new MauvaisVote("Id non nul. La BD doit le gérer");
+        if (vdVote.vote > 10) throw new MauvaisVote("Valeur du vote supérieur à 5 étoiles");
+        if (vdVote.vote < 0) throw new MauvaisVote("Valeur du vote inférieur à 0");
+
+        for (VDVote v : maBD.monDao().lesVDVote()){
+            if (v.QuestionID.equals(vdVote.QuestionID) && v.nomVoteur.toUpperCase().equals(vdVote.nomVoteur.toUpperCase())){
+                throw new MauvaisVote("Vous avez déjà voté la question.");
+            }
+        }
 
         vdVote.idVote = maBD.monDao().insertVote(vdVote);
     }
@@ -66,6 +79,14 @@ public class ServiceImplementation{
         }
 
         return lq;
+    }
+
+    public void supprimerToutVote() {
+        maBD.monDao().deleteVote();
+    }
+
+    public void supprimerToutQuestion() {
+        maBD.monDao().deleteQuestion();
     }
 
     

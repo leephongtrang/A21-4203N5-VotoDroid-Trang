@@ -55,8 +55,10 @@ public class MainActivity extends AppCompatActivity {
     private void afficherQuestion() {
         if (!service.toutesLesQuestions().isEmpty()){
             adapter.list = service.toutesLesQuestions();
-            adapter.notifyDataSetChanged();
+        }else {
+            adapter.list.clear();
         }
+        adapter.notifyDataSetChanged();
     }
 
     private void creerQuestion (){
@@ -67,10 +69,6 @@ public class MainActivity extends AppCompatActivity {
         }catch (MauvaiseQuestion m){
             Log.e("CREERQUESTION", "Impossible de créer la question : " + m.getMessage());
         }
-    }
-
-    private void testvote(){
-
     }
 
     private void test(){
@@ -95,7 +93,17 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        return super.onOptionsItemSelected(item);
+        switch (item.getItemId()){
+            case R.id.action_deleteAllEntries:
+                service.supprimerToutVote();
+                return true;
+            case R.id.action_deleteAllQuestions:
+                service.supprimerToutQuestion();
+                afficherQuestion();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     private void initRecycler(){
