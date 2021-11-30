@@ -117,8 +117,27 @@ public class ServiceImplementation{
     }
 
     
-    public float ecartTypeVotes(VDQuestion question) {
-        return 0;
+    public String ecartTypeVotes(Long questionID) {
+        int resultat = 0;
+        int nbQuestion = 0;
+        int totalVote = 0;
+
+        if (!toutLesVotes().isEmpty()){
+            for (VDVote v: toutLesVotes()){
+                if (v.QuestionID.equals(questionID)){
+                    nbQuestion++;
+                    totalVote += v.vote;
+                }
+            }
+
+            resultat = totalVote*(3);
+
+            DecimalFormat df = new DecimalFormat();
+            df.setMaximumFractionDigits(2);
+
+            return df.format(Math.sqrt(resultat));
+        }
+        return "0";
     }
 
     
