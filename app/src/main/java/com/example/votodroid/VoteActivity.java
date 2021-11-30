@@ -75,7 +75,7 @@ public class VoteActivity extends AppCompatActivity {
 
         VDVote vote = new VDVote();
         vote.nomVoteur = textView.getText().toString();
-        vote.vote = (int) (ratingBar.getRating()*2);
+        vote.vote = (int) (ratingBar.getRating());
         vote.QuestionID = getIntent().getLongExtra("questionID", 0);
         service.creerVote(vote);
     }

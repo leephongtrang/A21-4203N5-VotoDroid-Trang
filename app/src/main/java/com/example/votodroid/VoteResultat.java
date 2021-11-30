@@ -1,10 +1,14 @@
 package com.example.votodroid;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.room.Room;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 
+import com.example.votodroid.bd.BD;
+import com.example.votodroid.service.ServiceImplementation;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
@@ -22,6 +26,9 @@ public class VoteResultat extends AppCompatActivity {
     BarChart chart;
     TextView moyenne;
     TextView ecartType;
+
+    private ServiceImplementation service;
+    private BD maBD;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,18 +66,24 @@ public class VoteResultat extends AppCompatActivity {
         chart.getDescription().setEnabled(false);
         chart.getAxisRight().setEnabled(false);
 
-
+        maBD =  Room.databaseBuilder(getApplicationContext(), BD.class, "BDQuestions")
+                .allowMainThreadQueries()
+                .fallbackToDestructiveMigration()
+                .build();
+        service = ServiceImplementation.getInstance(maBD);
 
         /* Data and function call to bind the data to the graph */
         Map<Integer, Integer> dataGraph = new HashMap<Integer, Integer>() {{
             put(0, 0);
-            put(3, 2);
-            put(4, 1);
-            put(5, 4);
+            put(1, 0);
+            put(2, 0);
+            put(3, 0);
+            put(4, 0);
+            put(5, 0);
         }};
         setData(dataGraph);
 
-        moyenne.setText("4");
+        moyenne.setText(service.moyenneVotes(this.getIntent().getLongExtra("questionID", 0)));
         ecartType.setText("3");
     }
 

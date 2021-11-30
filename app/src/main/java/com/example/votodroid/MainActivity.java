@@ -37,11 +37,10 @@ public class MainActivity extends AppCompatActivity {
                 .fallbackToDestructiveMigration()
                 .build();
         service = ServiceImplementation.getInstance(maBD);
-        //creerQuestion();
 
         this.initRecycler();
         afficherQuestion();
-        this.test();
+        //this.test();
 
         binding.actionAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,16 +58,6 @@ public class MainActivity extends AppCompatActivity {
             adapter.list.clear();
         }
         adapter.notifyDataSetChanged();
-    }
-
-    private void creerQuestion (){
-        try{
-            VDQuestion maQuestion = new VDQuestion();
-            maQuestion.texteQuestion = "As-tu hâte au nouveau film The Matrix Resurrections?";
-            service.creerQuestion(maQuestion);
-        }catch (MauvaiseQuestion m){
-            Log.e("CREERQUESTION", "Impossible de créer la question : " + m.getMessage());
-        }
     }
 
     private void test(){

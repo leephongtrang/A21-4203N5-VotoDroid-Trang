@@ -6,6 +6,7 @@ import com.example.votodroid.exceptions.MauvaiseQuestion;
 import com.example.votodroid.modele.VDQuestion;
 import com.example.votodroid.modele.VDVote;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -16,7 +17,7 @@ public class ServiceImplementation{
     private static ServiceImplementation single_instance = null;
     private BD maBD;
 
-    private ServiceImplementation (BD maBD){
+    public ServiceImplementation (BD maBD){
         this.maBD = maBD;
     }
 
@@ -65,6 +66,9 @@ public class ServiceImplementation{
         vdVote.idVote = maBD.monDao().insertVote(vdVote);
     }
 
+    public List<VDVote> toutLesVotes() {
+        return maBD.monDao().lesVDVote();
+    }
     
     public List<VDQuestion> toutesLesQuestions() {
         //TODO Trier la liste reçue en BD par nombre de votes et la retourner
@@ -90,8 +94,26 @@ public class ServiceImplementation{
     }
 
     
-    public float moyenneVotes(VDQuestion question) {
-        return 0;
+    public String moyenneVotes(Long questionID) {
+        int nbQuestion = 0;
+        int totalVote = 0;
+
+        if (!toutLesVotes().isEmpty()){
+            for (VDVote v: toutLesVotes()){
+                if (v.QuestionID.equals(questionID)){
+                    nbQuestion++;
+                    totalVote += v.vote;
+                }
+            }
+
+            DecimalFormat df = new DecimalFormat();
+            df.setMaximumFractionDigits(2);
+
+            float moyenne = totalVote/nbQuestion;
+
+            return df.format(moyenne);
+        }
+        return "0";
     }
 
     
