@@ -8,6 +8,7 @@ import android.util.Log;
 import android.widget.TextView;
 
 import com.example.votodroid.bd.BD;
+import com.example.votodroid.modele.VDVote;
 import com.example.votodroid.service.ServiceImplementation;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.XAxis;
@@ -72,15 +73,41 @@ public class VoteResultat extends AppCompatActivity {
                 .build();
         service = ServiceImplementation.getInstance(maBD);
 
+        //region remplissageGraph
+        int star0 = 0;
+        int star1 = 0;
+        int star2 = 0;
+        int star3 = 0;
+        int star4 = 0;
+        int star5 = 0;
+
+        for (VDVote v: service.toutLesVotes()){
+            if(v.vote == 0) {star0++;}
+            if(v.vote == 1) {star1++;}
+            if(v.vote == 2) {star2++;}
+            if(v.vote == 3) {star3++;}
+            if(v.vote == 4) {star4++;}
+            if(v.vote == 5) {star5++;}
+        }
+
+        int finalStar0 = star0;
+        int finalStar1 = star1;
+        int finalStar2 = star2;
+        int finalStar3 = star3;
+        int finalStar4 = star4;
+        int finalStar5 = star5;
+        //endregion
+
         /* Data and function call to bind the data to the graph */
         Map<Integer, Integer> dataGraph = new HashMap<Integer, Integer>() {{
-            put(0, 0);
-            put(1, 0);
-            put(2, 0);
-            put(3, 0);
-            put(4, 0);
-            put(5, 0);
+            put(0, finalStar0);
+            put(1, finalStar1);
+            put(2, finalStar2);
+            put(3, finalStar3);
+            put(4, finalStar4);
+            put(5, finalStar5);
         }};
+
         setData(dataGraph);
 
         moyenne.setText(service.moyenneVotes(this.getIntent().getLongExtra("questionID", 0)));
