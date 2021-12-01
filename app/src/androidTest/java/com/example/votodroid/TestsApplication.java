@@ -34,7 +34,36 @@ public class TestsApplication {
         service = new ServiceImplementation(bd);
     }
 
+    @Test
+    public void testToutLesVotes() {
+        VDQuestion question01 = new VDQuestion();
+        VDQuestion question02 = new VDQuestion();
+        VDQuestion question03 = new VDQuestion();
+        question01.texteQuestion = "TestQ1";
+        question02.texteQuestion = "TestQ2";
+        question03.texteQuestion = "TestQ3";
+        try {
+            service.creerQuestion(question01);
+            service.creerQuestion(question02);
+            service.creerQuestion(question03);
+        } catch (MauvaiseQuestion mauvaiseQuestion) {
+            mauvaiseQuestion.printStackTrace();
+        }
 
+        VDVote vote01 = new VDVote();
+        vote01.QuestionID = question03.idQuestion;
+        vote01.vote = 2;
+        vote01.nomVoteur = "TestV1";
+
+        List<VDQuestion> expect = new ArrayList<>();
+        expect.add(question03);
+        expect.add(question01);
+        expect.add(question02);
+
+        List<VDQuestion> result = service.toutesLesQuestions();
+
+        Assert.;
+    }
 
     //region testQuestion
     @Test(expected = MauvaiseQuestion.class)
