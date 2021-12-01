@@ -8,7 +8,10 @@ import com.example.votodroid.modele.VDVote;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -75,14 +78,39 @@ public class ServiceImplementation{
         List<VDQuestion> lq = maBD.monDao().lesVDQuestion();
         List<VDVote> lv = maBD.monDao().lesVDVote();
 
-        for (VDQuestion q : lq){
+        /*List<VDQuestion> listTrier = new ArrayList<>();
 
-            for (VDVote v : lv) {
-
+        int freq = 0;
+        for (int i = 0; i < lq.size(); i++){
+            for (VDQuestion q: lq){
+                if (maBD.monDao().nbVote(q.idQuestion) == freq){
+                    listTrier.add(q);
+                }
             }
+            freq++;
         }
+        Collections.reverse(listTrier);*/
+
+        Collections.sort(lq, new Comparator<VDQuestion>() {
+            @Override
+            public int compare(VDQuestion o1, VDQuestion o2) {
+                int nbVotes1 = nombreDeVotePour(o1);
+                int nbVotes2 = nombreDeVotePour(o2);
+                if (nbVotes1 > nbVotes2) return -1;
+
+                if (nbVotes1 < nbVotes2) return +1;
+
+                return 0;
+            }
+        });
 
         return lq;
+    }
+
+    private int nombreDeVotePour(VDQuestion o1) {
+        int nbVote = 0;
+        for (VDVote v: toutLesVotes()) if (v.QuestionID.equals(o1.idQuestion)) nbVote++;
+        return nbVote;
     }
 
     public void supprimerToutVote() {

@@ -32,4 +32,6 @@ public interface MonDao {
     @Query("DELETE FROM VDVote")
     public void deleteVote();
 
+    //@Query("select count(QuestionID) from VDVote where QuestionID = :idQ")
+    //int nbVote(Long idQ);
 }

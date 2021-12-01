@@ -17,6 +17,9 @@ import com.example.votodroid.modele.VDQuestion;
 import com.example.votodroid.modele.VDVote;
 import com.example.votodroid.service.ServiceImplementation;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @RunWith(AndroidJUnit4.class)
 public class TestsApplication {
 
@@ -32,6 +35,8 @@ public class TestsApplication {
     }
 
 
+
+    //region testQuestion
     @Test(expected = MauvaiseQuestion.class)
     public void ajoutQuestionKOVide() throws MauvaiseQuestion {
         VDQuestion question = new VDQuestion();
@@ -97,6 +102,7 @@ public class TestsApplication {
         //TODO Ce test va fail tant que vous n'implémenterez pas toutesLesQuestions() dans ServiceImplementation
         Assert.fail("Exception MauvaiseQuestion non lancée");
     }
+    //endregion
 
     //region testVote
     @Test

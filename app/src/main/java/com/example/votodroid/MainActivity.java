@@ -14,8 +14,10 @@ import androidx.room.Room;
 
 import com.example.votodroid.bd.BD;
 import com.example.votodroid.databinding.ActivityMainBinding;
+import com.example.votodroid.exceptions.MauvaisVote;
 import com.example.votodroid.exceptions.MauvaiseQuestion;
 import com.example.votodroid.modele.VDQuestion;
+import com.example.votodroid.modele.VDVote;
 import com.example.votodroid.service.ServiceImplementation;
 
 public class MainActivity extends AppCompatActivity {
@@ -40,7 +42,8 @@ public class MainActivity extends AppCompatActivity {
 
         this.initRecycler();
         afficherQuestion();
-        //this.test();
+
+        this.test();
 
         binding.actionAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void test(){
+        Long id = 20L;
         for (int i = 0; i < 23; i++){
             VDQuestion q = new VDQuestion();
             q.texteQuestion = "testQ" + i;
@@ -69,6 +73,17 @@ public class MainActivity extends AppCompatActivity {
                 adapter.list.add(q);
             } catch (MauvaiseQuestion m){
                 Log.e("CREERQUESTION", "Impossible de créer la question : " + m.getMessage());
+            }
+        }
+        for (int i = 0; i < 3; i++){
+            try {
+                VDVote vote = new VDVote();
+                vote.nomVoteur = "TestV" + i;
+                vote.QuestionID = id;
+                vote.vote = 5;
+                service.creerVote(vote);
+            } catch (MauvaisVote m) {
+                Log.e("CREERVOTE", "Impossible de créer le vote : " + m.getMessage());
             }
         }
         adapter.notifyDataSetChanged();
