@@ -21,6 +21,7 @@ import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class VoteResultat extends AppCompatActivity {
@@ -76,6 +77,11 @@ public class VoteResultat extends AppCompatActivity {
         Id = this.getIntent().getLongExtra("questionID", 0);
 
         //region remplissageGraph
+        List<VDVote> listVoteCetteQuestion = new ArrayList<>();
+        for (VDVote v: service.toutLesVotes()){
+            if (v.QuestionID.equals(Id)) {listVoteCetteQuestion.add(v);}
+        }
+
         int star0 = 0;
         int star1 = 0;
         int star2 = 0;
@@ -83,7 +89,7 @@ public class VoteResultat extends AppCompatActivity {
         int star4 = 0;
         int star5 = 0;
 
-        for (VDVote v: service.toutLesVotes()){
+        for (VDVote v: listVoteCetteQuestion){
             if(v.vote == 0) {star0++;}
             if(v.vote == 1) {star1++;}
             if(v.vote == 2) {star2++;}
@@ -112,8 +118,14 @@ public class VoteResultat extends AppCompatActivity {
 
         setData(dataGraph);
 
-        moyenne.setText(service.moyenneVotes(Id));
+        //check si y a des votes
+        if (listVoteCetteQuestion.size() != 0){
+        moyenne.setText(service.moyenneVotes(Id)); //crash ici quand y a pas de vote sur la question
         ecartType.setText(service.ecartTypeVotes(Id));
+        }else {
+            moyenne.setText("0");
+            ecartType.setText("0");
+        }
     }
 
     private void setData(Map<Integer, Integer> datas) {

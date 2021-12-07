@@ -85,14 +85,9 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.MyView
         });
     }
 
-
-
     // renvoie la taille de la liste
     @Override
     public int getItemCount() {
         return list.size();
     }
-
-    //https://medium.com/android-news/click-listener-for-recyclerview-adapter-2d17a6f6f6c9
-    //Pour bouton item recycleview
 }
