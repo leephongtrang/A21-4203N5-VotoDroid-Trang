@@ -30,6 +30,7 @@ public class VoteResultat extends AppCompatActivity {
 
     private ServiceImplementation service;
     private BD maBD;
+    private Long Id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +73,7 @@ public class VoteResultat extends AppCompatActivity {
                 .fallbackToDestructiveMigration()
                 .build();
         service = ServiceImplementation.getInstance(maBD);
+        Id = this.getIntent().getLongExtra("questionID", 0);
 
         //region remplissageGraph
         int star0 = 0;
@@ -110,8 +112,8 @@ public class VoteResultat extends AppCompatActivity {
 
         setData(dataGraph);
 
-        moyenne.setText(service.moyenneVotes(this.getIntent().getLongExtra("questionID", 0)));
-        ecartType.setText("3");
+        moyenne.setText(service.moyenneVotes(Id));
+        ecartType.setText(service.ecartTypeVotes(Id));
     }
 
     private void setData(Map<Integer, Integer> datas) {

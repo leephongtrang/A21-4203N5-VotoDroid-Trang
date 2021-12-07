@@ -75,17 +75,22 @@ public class MainActivity extends AppCompatActivity {
                 Log.e("CREERQUESTION", "Impossible de créer la question : " + m.getMessage());
             }
         }
-        for (int i = 0; i < 3; i++){
-            try {
+        try {
+            VDVote vote1 = new VDVote();
+            vote1.vote = 1;
+            vote1.nomVoteur = "sdjffiodjv";
+            vote1.QuestionID = id;
+            service.creerVote(vote1);
+            for (int i = 0; i < 3; i++){
                 VDVote vote = new VDVote();
                 vote.nomVoteur = "TestV" + i;
                 vote.QuestionID = id;
                 vote.vote = 5;
                 service.creerVote(vote);
-            } catch (MauvaisVote m) {
-                Log.e("CREERVOTE", "Impossible de créer le vote : " + m.getMessage());
             }
-        }
+        } catch (MauvaisVote m) {
+        Log.e("CREERVOTE", "Impossible de créer le vote : " + m.getMessage());
+    }
         adapter.notifyDataSetChanged();
     }
 

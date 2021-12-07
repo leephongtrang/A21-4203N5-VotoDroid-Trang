@@ -78,19 +78,6 @@ public class ServiceImplementation{
         List<VDQuestion> lq = maBD.monDao().lesVDQuestion();
         List<VDVote> lv = maBD.monDao().lesVDVote();
 
-        /*List<VDQuestion> listTrier = new ArrayList<>();
-
-        int freq = 0;
-        for (int i = 0; i < lq.size(); i++){
-            for (VDQuestion q: lq){
-                if (maBD.monDao().nbVote(q.idQuestion) == freq){
-                    listTrier.add(q);
-                }
-            }
-            freq++;
-        }
-        Collections.reverse(listTrier);*/
-
         Collections.sort(lq, new Comparator<VDQuestion>() {
             @Override
             public int compare(VDQuestion o1, VDQuestion o2) {
@@ -123,6 +110,13 @@ public class ServiceImplementation{
 
     
     public String moyenneVotes(Long questionID) {
+        DecimalFormat df = new DecimalFormat();
+        df.setMaximumFractionDigits(2);
+
+        return df.format(getMoyenne(questionID));
+    }
+
+    private float getMoyenne(Long questionID){
         int nbQuestion = 0;
         int totalVote = 0;
 
@@ -133,43 +127,28 @@ public class ServiceImplementation{
                     totalVote += v.vote;
                 }
             }
-
-            DecimalFormat df = new DecimalFormat();
-            df.setMaximumFractionDigits(2);
 
             float moyenne = totalVote/nbQuestion;
-
-            return df.format(moyenne);
+            return moyenne;
         }
-        return "0";
+        return 0;
     }
 
-    
     public String ecartTypeVotes(Long questionID) {
-        int resultat = 0;
+        float moy = getMoyenne(questionID);
+        float temp = 0;
         int nbQuestion = 0;
-        int totalVote = 0;
-
-        if (!toutLesVotes().isEmpty()){
-            for (VDVote v: toutLesVotes()){
-                if (v.QuestionID.equals(questionID)){
-                    nbQuestion++;
-                    totalVote += v.vote;
-                }
+        for (VDVote v: toutLesVotes()){
+            if (v.QuestionID.equals(questionID)){
+                nbQuestion++;
+                temp += (v.vote-moy)*(v.vote-moy);
             }
-
-            resultat = totalVote*(3);
-
-            DecimalFormat df = new DecimalFormat();
-            df.setMaximumFractionDigits(2);
-
-            return df.format(Math.sqrt(resultat));
         }
-        return "0";
-    }
+        float fff = temp/nbQuestion-1;
 
-    
-    public Map<Integer, Integer> distributionVotes(VDQuestion question) {
-        return null;
+        DecimalFormat df = new DecimalFormat();
+        df.setMaximumFractionDigits(2);
+
+        return df.format(fff);
     }
 }
