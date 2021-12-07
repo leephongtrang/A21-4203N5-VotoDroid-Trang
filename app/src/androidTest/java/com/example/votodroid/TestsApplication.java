@@ -34,37 +34,6 @@ public class TestsApplication {
         service = new ServiceImplementation(bd);
     }
 
-    @Test
-    public void testToutLesVotes() {
-        VDQuestion question01 = new VDQuestion();
-        VDQuestion question02 = new VDQuestion();
-        VDQuestion question03 = new VDQuestion();
-        question01.texteQuestion = "TestQ1";
-        question02.texteQuestion = "TestQ2";
-        question03.texteQuestion = "TestQ3";
-        try {
-            service.creerQuestion(question01);
-            service.creerQuestion(question02);
-            service.creerQuestion(question03);
-        } catch (MauvaiseQuestion mauvaiseQuestion) {
-            mauvaiseQuestion.printStackTrace();
-        }
-
-        VDVote vote01 = new VDVote();
-        vote01.QuestionID = question03.idQuestion;
-        vote01.vote = 2;
-        vote01.nomVoteur = "TestV1";
-
-        List<VDQuestion> expect = new ArrayList<>();
-        expect.add(question03);
-        expect.add(question01);
-        expect.add(question02);
-
-        List<VDQuestion> result = service.toutesLesQuestions();
-
-        Assert.;
-    }
-
     //region testQuestion
     @Test(expected = MauvaiseQuestion.class)
     public void ajoutQuestionKOVide() throws MauvaiseQuestion {
@@ -136,10 +105,19 @@ public class TestsApplication {
     //region testVote
     @Test
     public void testAjoutVoteOK() throws MauvaisVote {
+        VDQuestion question = new VDQuestion();
+        question.texteQuestion = "JeSuisUneQuestion";
+        try {
+            service.creerQuestion(question);
+        } catch (MauvaiseQuestion mauvaiseQuestion) {
+            mauvaiseQuestion.printStackTrace();
+        }
+
         VDVote vote = new VDVote();
-        vote.vote = 10;
-        vote.nomVoteur = "test";
-        vote.QuestionID = 1L;
+        vote.vote = 4;
+        vote.nomVoteur = "JeSuisUnTest";
+        
+        vote.QuestionID = question.idQuestion;
         service.creerVote(vote);
 
         Assert.assertNotNull(vote.idVote);
@@ -147,15 +125,23 @@ public class TestsApplication {
 
     @Test(expected = MauvaisVote.class)
     public void testAjoutVoteKOExiste() throws MauvaisVote {
+        VDQuestion question = new VDQuestion();
+        question.texteQuestion = "JeSuisUneQuestion";
+        try {
+            service.creerQuestion(question);
+        } catch (MauvaiseQuestion mauvaiseQuestion) {
+            mauvaiseQuestion.printStackTrace();
+        }
+
         VDVote testVote01 = new VDVote();
-        testVote01.vote = 10;
+        testVote01.vote = 4;
         testVote01.nomVoteur = "test";
-        testVote01.QuestionID = 1L;
+        testVote01.QuestionID = question.idQuestion;
 
         VDVote testVote02 = new VDVote();
-        testVote02.vote = 10;
+        testVote02.vote = 2;
         testVote02.nomVoteur = "TEST";
-        testVote02.QuestionID = 1L;
+        testVote02.QuestionID = question.idQuestion;
 
         service.creerVote(testVote01);
         service.creerVote(testVote02);
@@ -165,10 +151,18 @@ public class TestsApplication {
 
     @Test(expected = MauvaisVote.class)
     public void testAjoutVoteKOPlus10() throws MauvaisVote {
+        VDQuestion question = new VDQuestion();
+        question.texteQuestion = "JeSuisUneQuestion";
+        try {
+            service.creerQuestion(question);
+        } catch (MauvaiseQuestion mauvaiseQuestion) {
+            mauvaiseQuestion.printStackTrace();
+        }
+
         VDVote vdVote = new VDVote();
         vdVote.vote = 99;
         vdVote.nomVoteur = "test";
-        vdVote.QuestionID = 1L;
+        vdVote.QuestionID = question.idQuestion;
         service.creerVote(vdVote);
 
         Assert.fail("Exception MauvaisVote non lancée");
@@ -176,10 +170,18 @@ public class TestsApplication {
 
     @Test(expected = MauvaisVote.class)
     public void testAjoutVoteKOMoins0() throws MauvaisVote {
+        VDQuestion question = new VDQuestion();
+        question.texteQuestion = "JeSuisUneQuestion";
+        try {
+            service.creerQuestion(question);
+        } catch (MauvaiseQuestion mauvaiseQuestion) {
+            mauvaiseQuestion.printStackTrace();
+        }
+
         VDVote vdVote = new VDVote();
         vdVote.vote = -99;
         vdVote.nomVoteur = "test";
-        vdVote.QuestionID = 1L;
+        vdVote.QuestionID = question.idQuestion;
         service.creerVote(vdVote);
 
         Assert.fail("Exception MauvaisVote non lancée");
@@ -187,8 +189,27 @@ public class TestsApplication {
 
     @Test(expected = MauvaisVote.class)
     public void testAjoutVoteKONomVide() throws MauvaisVote {
+        VDQuestion question = new VDQuestion();
+        question.texteQuestion = "JeSuisUneQuestion";
+        try {
+            service.creerQuestion(question);
+        } catch (MauvaiseQuestion mauvaiseQuestion) {
+            mauvaiseQuestion.printStackTrace();
+        }
+
         VDVote vdVote = new VDVote();
-        vdVote.vote = 9;
+        vdVote.vote = 3;
+        vdVote.nomVoteur = "";
+        vdVote.QuestionID = question.idQuestion;
+        service.creerVote(vdVote);
+
+        Assert.fail("Exception MauvaisVote non lancée");
+    }
+
+    @Test
+    public void testAjoutVoteQuestionExiste() throws MauvaisVote {
+        VDVote vdVote = new VDVote();
+        vdVote.vote = 3;
         vdVote.nomVoteur = "";
         vdVote.QuestionID = 1L;
         service.creerVote(vdVote);
@@ -221,10 +242,13 @@ public class TestsApplication {
     }
     //endregion
 
-    /*
-    @After
-    public void closeDb() {
-        bd.close();
+    //region Tests de l'affichage de la listes des questions
+    @Test
+    public void testRetourneListKOVide() {
+
+
     }
-    */
+
+
+    //endregion
 }

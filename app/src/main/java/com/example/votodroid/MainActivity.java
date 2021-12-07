@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         this.initRecycler();
         afficherQuestion();
 
-        this.test();
+        //this.test();
 
         binding.actionAdd.setOnClickListener(new View.OnClickListener() {
             @Override
