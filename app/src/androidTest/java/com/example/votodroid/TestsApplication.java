@@ -17,6 +17,7 @@ import com.example.votodroid.modele.VDQuestion;
 import com.example.votodroid.modele.VDVote;
 import com.example.votodroid.service.ServiceImplementation;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -222,23 +223,73 @@ public class TestsApplication {
     //region testDeleteBD
     public void RemplirBDQuestion(){
         for (int i = 0; i < 5; i++){
-            VDQuestion vdQuestion = new VDQuestion();
-            vdQuestion.texteQuestion = "testRemplirBD0" + i;
+            try {
+                VDQuestion vdQuestion = new VDQuestion();
+                vdQuestion.texteQuestion = "testRemplirBD0" + i;
+                service.creerQuestion(vdQuestion);
+            } catch (MauvaiseQuestion mauvaiseQuestion) {
+                mauvaiseQuestion.printStackTrace();
+            }
         }
     }
 
-    public void RemplirBDVote(){
-        
+    public void RemplirBDVote(VDQuestion vdQuestion) {
+        for (int i = 0; i < 5; i++){
+            VDVote vdVote = new VDVote();
+            vdVote.nomVoteur = "testRempirBDV0" + i;
+            vdVote.QuestionID = vdQuestion.idQuestion;
+            vdVote.vote = 5;
+        }
+        for (int i = 0; i < 5; i++){
+            VDVote vdVote = new VDVote();
+            vdVote.nomVoteur = "testRempirBDV1" + i;
+            vdVote.QuestionID = vdQuestion.idQuestion;
+            vdVote.vote = 4;
+        }
     }
 
     @Test
     public void testSupprimerToutQuestion(){
+        RemplirBDQuestion();
+        service.supprimerToutQuestion();
 
+        Assert.assertEquals(0, service.toutesLesQuestions().size());
     }
 
     @Test
-    public void testSupprimerToutVote(){
+    public void testSupprimerToutVote() throws MauvaiseQuestion {
+        VDQuestion vdQuestion = new VDQuestion();
+        vdQuestion.texteQuestion = "testQ";
+        service.creerQuestion(vdQuestion);
 
+        RemplirBDVote(vdQuestion);
+        service.supprimerToutVote();
+
+        Assert.assertEquals(0, service.toutLesVotes().size());
+    }
+    //endregion
+
+    //region testResultats
+    @Test
+    public void testMoyenneOK() throws MauvaiseQuestion {
+        VDQuestion vdQuestion = new VDQuestion();
+        vdQuestion.texteQuestion = "testQ";
+        service.creerQuestion(vdQuestion);
+
+        RemplirBDVote(vdQuestion);
+
+        Assert.assertEquals(4.5, service.moyenneVotes(vdQuestion.idQuestion));
+    }
+
+    @Test
+    public void testEcartTypeOK() throws MauvaiseQuestion {
+        VDQuestion vdQuestion = new VDQuestion();
+        vdQuestion.texteQuestion = "testQ";
+        service.creerQuestion(vdQuestion);
+
+        RemplirBDVote(vdQuestion);
+
+        Assert.assertEquals(0.5, service.ecartTypeVotes(vdQuestion.idQuestion));
     }
     //endregion
 
